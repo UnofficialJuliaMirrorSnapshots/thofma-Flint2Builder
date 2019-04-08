@@ -1,0 +1,39 @@
+language: julia
+os:
+  - linux
+julia:
+  - 1.0
+notifications:
+  email: false
+git:
+  depth: 99999999
+cache:
+  timeout: 1000
+  directories:
+    - downloads
+env:
+  global:
+    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+    - BINARYBUILDER_AUTOMATIC_APPLE=true
+sudo: required
+
+# Before anything else, get the latest versions of things
+before_script:
+  - julia -e 'using Pkg; pkg"add BinaryProvider"; pkg"add BinaryBuilder#master"; Pkg.build()'
+
+script:
+  - julia build_tarballs.jl
+
+
+deploy:
+    provider: releases
+    api_key:
+        # Note; this api_key is only valid for thofma/Flint2Builder; you need
+        # to make your own: https://docs.travis-ci.com/user/deployment/releases/
+        secure: HYfqKjTHTNbp1jw3rDbOqiYP0zl/BlS9h3Uwy4YZ9t7YAajpxnZ3yqPTPycdKkbw2V8PpQki60oXxNt0/zcjh0F6dsNXsOgx5nIe5HoUQ0lbScx9p1HJMBvKFNFLpzNabB/jjvg7o2FXaaeOyKI2+9LELsi1X7LpT2TvVUO55dlpvYlzX/czei6YdevDNZBFrgWQlzHnrsiIkSaHUscDCzp/31IS84WiJJnqmCND5ZUq3Zzgxt/wONFDTZP84svt+lBaBLRPwB8IochlXNZY2/Fsj+tkwSDi8WEzlCaxoxF9pcRfUvB8siFybuYCYh9tZWWBGBNkhEZn24iVZL+WsoMl1sPfsDpt2TNPy4q0LPRFMxWZbsRb/PatfTRLLOi8GAHHy8WeURKUeIhHLww7YLKrBQr+j8xRwl6gaPw6x3Zk6R9ArzFQc+/pBwspS0G++7fHLRwEFnWXDAuDwkk7SDKh49AeXG0ZUpGp397n/xCvK3R2YCVtUQAg8tET+C3nch8xi+X17SOuQtnZN9maO8BALAzsqESiQ79JBCaIzP6Ms9fQHyfJYDVK/EacxBU2t4qisUTuEtnlP2Xc+yVHxVZ5k14+iHy4EAYeBqDZ3OvBQ3XPqEr/NkBrhNfMhZ79z6eW5sBqIJrjc3iMzWZtaiz749dk2IQd4FtkIib+lJM=
+    file_glob: true
+    file: products/*
+    skip_cleanup: true
+    on:
+        repo: thofma/Flint2Builder
+        tags: true
