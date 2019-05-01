@@ -3,12 +3,12 @@
 using BinaryBuilder
 
 name = "libflint"
-version = v"0.0.0-5451b53703a529ff76123b7418fe2d624e122db6"
+version = v"0.0.0-18a7acb7444af109ea639d00f605a26048e134d7"
 
 # Collection of sources required to build libflint
 sources = [
     "https://github.com/wbhart/flint2.git" =>
-    "5451b53703a529ff76123b7418fe2d624e122db6",
+    "18a7acb7444af109ea639d00f605a26048e134d7",
 
 ]
 
@@ -16,7 +16,14 @@ sources = [
 script = raw"""
 cd $WORKSPACE/srcdir
 cd flint2/
-./configure --prefix=$prefix --disable-static --enable-shared --with-gmp=$prefix --with-mpfr=$prefix
+
+# If we're compiling for Windows, then disable things
+if [[ ${target} == *mingw* ]]; then
+    ./configure --prefix=$prefix --disable-static --enable-shared --reentrant --with-gmp=$prefix --with-mpfr=$prefix
+else
+    ./configure --prefix=$prefix --disable-static --enable-shared --with-gmp=$prefix --with-mpfr=$prefix
+fi
+
 make -j${nproc}
 make install
 
