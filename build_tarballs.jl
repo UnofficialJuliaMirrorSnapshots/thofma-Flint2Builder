@@ -3,12 +3,12 @@
 using BinaryBuilder
 
 name = "libflint"
-version = v"0.0.0-72d3a84ceb17b9a73f43ac428a3a4589a7cf0731"
+version = v"0.0.0-165143e3e4cc54e00471ddab1a9573a8e28477ff"
 
 # Collection of sources required to build libflint
 sources = [
     "https://github.com/wbhart/flint2.git" =>
-    "72d3a84ceb17b9a73f43ac428a3a4589a7cf0731",
+    "165143e3e4cc54e00471ddab1a9573a8e28477ff",
 
 ]
 
@@ -44,8 +44,8 @@ products(prefix) = [
 
 # Dependencies that must be installed before this package can be built
 dependencies = [
-    "https://github.com/JuliaMath/GMPBuilder/releases/download/v6.1.2-2/build_GMP.v6.1.2.jl",
-    "https://github.com/JuliaMath/MPFRBuilder/releases/download/v4.0.1-3/build_MPFR.v4.0.1.jl"
+    "https://github.com/JuliaPackaging/Yggdrasil/releases/download/GMP-v6.1.2-1/build_GMP.v6.1.2.jl",
+    "https://github.com/JuliaPackaging/Yggdrasil/releases/download/MPFR-v4.0.2-1/build_MPFR.v4.0.2.jl"
 ]
 
 # Build the tarballs, and possibly a `build.jl` as well.
